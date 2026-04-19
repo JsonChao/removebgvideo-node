@@ -5,10 +5,10 @@
   "homepage": "https://removebgvideo.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/removebgvideo/removebgvideo-node.git"
+    "url": "https://github.com/JsonChao/removebgvideo-node.git"
   },
   "bugs": {
-    "url": "https://github.com/removebgvideo/removebgvideo-node/issues"
+    "url": "https://github.com/JsonChao/removebgvideo-node/issues"
   },
   "type": "module",
   "main": "./src/index.js",
