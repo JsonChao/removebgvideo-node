@@ -2,7 +2,7 @@
   <img src="https://removebgvideo.com/images/remove-bg-video-logo.png" alt="RemoveBGVideo" width="72" />
 </p>
 
-<h1 align="center">removebgvideo-node</h1>
+<h1 align="center">RemoveBGVideo Node.js SDK</h1>
 
 <p align="center">
   Official Node.js SDK for RemoveBGVideo Public API (<code>/v1</code>)
