@@ -1,0 +1,41 @@
+{
+  "name": "removebgvideo-node",
+  "version": "0.1.0",
+  "description": "Official Node.js SDK for RemoveBGVideo Public API",
+  "homepage": "https://removebgvideo.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/removebgvideo/removebgvideo-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/removebgvideo/removebgvideo-node/issues"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "check": "node --check src/index.js",
+    "test": "node --test",
+    "prepublishOnly": "npm run check && npm test",
+    "example": "node examples/basic.js",
+    "example:admin": "node examples/admin.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "removebgvideo",
+    "video background removal",
+    "sdk"
+  ],
+  "license": "MIT"
+}
