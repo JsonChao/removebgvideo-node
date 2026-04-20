@@ -16,9 +16,19 @@ export interface CreateJobOptions {
   bg_type?: string;
   output_format?: string;
   text_prompt?: string;
+  webhook_url?: string;
   bg_color?: number[];
   auto_start?: boolean;
   metadata?: Record<string, unknown>;
+}
+
+export interface StartJobOptions {
+  model?: 'original' | 'light' | 'pro' | 'human';
+  output_format?: string;
+  bg_type?: string;
+  text_prompt?: string;
+  webhook_url?: string;
+  bg_color?: number[];
 }
 
 export interface ListJobsOptions {
@@ -44,7 +54,7 @@ export class RemoveBGVideoClient {
   constructor(options: ClientOptions);
   upload(fileOrBlob: Blob | File, filename?: string): Promise<any>;
   createJob(options: CreateJobOptions): Promise<any>;
-  startJob(jobId: string): Promise<any>;
+  startJob(jobId: string, options?: StartJobOptions): Promise<any>;
   getJob(jobId: string): Promise<any>;
   listJobs(options?: ListJobsOptions): Promise<any>;
   usageSummary(options?: UsageSummaryOptions): Promise<any>;

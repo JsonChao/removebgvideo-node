@@ -61,6 +61,7 @@ const created = await client.createJob({
   model: 'original',
   bg_type: 'transparent',
   output_format: 'webm',
+  webhook_url: 'https://your-app.com/webhooks/removebgvideo',
   auto_start: true,
 });
 
@@ -145,7 +146,9 @@ const created = await client.createJob({
   auto_start: false,
 });
 
-await client.startJob(created.id);
+await client.startJob(created.id, {
+  webhook_url: 'https://your-app.com/webhooks/removebgvideo',
+});
 const done = await client.waitForCompletion(created.id);
 ```
 
@@ -167,6 +170,7 @@ const done = await client.waitForCompletion(created.id);
 - `bg_type` (string, default `green`)
 - `output_format` (string, default `webm`)
 - `text_prompt` (string, optional, meaningful for `pro`)
+- `webhook_url` (string, optional, receive async callbacks)
 - `bg_color` (number[], optional)
 - `auto_start` (boolean, default `true`)
 - `metadata` (object, optional)
@@ -187,12 +191,44 @@ new RemoveBGVideoClient({
 
 - `upload(fileOrBlob, filename?)` -> `POST /v1/uploads`
 - `createJob(options)` -> `POST /v1/jobs`
-- `startJob(jobId)` -> `POST /v1/jobs/{id}/start`
+- `startJob(jobId, overrides?)` -> `POST /v1/jobs/{id}/start`
 - `getJob(jobId)` -> `GET /v1/jobs/{id}`
 - `listJobs({ limit, offset, status })` -> `GET /v1/jobs`
 - `usageSummary({ days })` -> `GET /v1/usage/summary`
 - `usageEvents({ limit })` -> `GET /v1/usage/events`
 - `waitForCompletion(jobId, { intervalMs, timeoutMs })` -> polling helper
+
+## Webhooks
+
+To receive server-to-server callbacks, pass `webhook_url` in `createJob` or `startJob`.
+
+Events:
+
+- `job.started`
+- `job.completed`
+- `job.failed`
+
+Headers:
+
+- `X-Webhook-Event`
+- `X-Webhook-Delivery-Id`
+- `X-Webhook-Timestamp`
+- `X-Webhook-Signature` (when signing secret is configured server-side)
+
+Node signature verification example:
+
+```js
+import crypto from 'node:crypto';
+
+function verifyWebhook(rawBody, timestamp, signature, secret) {
+  const digest = crypto
+    .createHmac('sha256', secret)
+    .update(`${timestamp}.${rawBody}`)
+    .digest('hex');
+  const expected = `sha256=${digest}`;
+  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature || ''));
+}
+```
 
 ### Polling Behavior (`waitForCompletion`)
 

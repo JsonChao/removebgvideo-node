@@ -73,6 +73,7 @@ export class RemoveBGVideoClient {
     bg_type = 'green',
     output_format = 'webm',
     text_prompt,
+    webhook_url,
     bg_color,
     auto_start = true,
     metadata,
@@ -85,6 +86,7 @@ export class RemoveBGVideoClient {
       auto_start,
     };
     if (text_prompt) payload.text_prompt = text_prompt;
+    if (webhook_url) payload.webhook_url = webhook_url;
     if (bg_color) payload.bg_color = bg_color;
     if (metadata) payload.metadata = metadata;
 
@@ -95,12 +97,11 @@ export class RemoveBGVideoClient {
     });
   }
 
-  async startJob(jobId) {
+  async startJob(jobId, overrides = {}) {
     return this.#request(`/v1/jobs/${jobId}/start`, {
       method: 'POST',
-      headers: {
-        'X-Api-Key': this.apiKey,
-      },
+      headers: this.#jsonHeaders(),
+      body: JSON.stringify(overrides || {}),
     });
   }
 
